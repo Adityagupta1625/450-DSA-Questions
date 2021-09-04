@@ -20,19 +20,13 @@ public:
     {
         int maxprof = 0;
         int n = prices.size();
-        for (int i = 0; i < n - 1; i++)
+        int min_so_far = prices[0];
+        for (int i = 0; i < n; i++)
         {
             /* code */
-            for (int j = i + 1; j < n; j++)
-            {
-
-                if (j > i)
-                {
-                    /* code */
-                    int sell = max(prices[i] - prices[j], prices[j] - prices[i]);
-                    maxprof = max(maxprof, sell);
-                }
-            }
+            min_so_far=min(min_so_far,prices[i]);
+            int sell = prices[i] - min_so_far;
+            maxprof = max(sell, maxprof);
         }
         return maxprof;
     }
@@ -40,7 +34,7 @@ public:
 int main()
 {
     Solution obj;
-    vector<int> price = {2, 4, 1};
+    vector<int> price = {7,1,5,3,6,4};
     cout << obj.maxProfit(price);
 
     return 0;
