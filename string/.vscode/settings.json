@@ -6,6 +6,9 @@
         "unordered_map": "cpp",
         "string": "cpp",
         "vector": "cpp",
-        "utility": "cpp"
+        "utility": "cpp",
+        "xlocale": "cpp",
+        "xlocnum": "cpp",
+        "iosfwd": "cpp"
     }
 }
