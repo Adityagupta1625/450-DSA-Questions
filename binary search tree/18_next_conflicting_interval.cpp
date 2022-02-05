@@ -31,17 +31,14 @@ ITNode *insert(ITNode *root, Interval i)
 
     int l = root->i->low;
 
-    if (i.low < l)
-    {
-        root->left = insert(root, i);
-    }
-    else
-    {
-        root->right = insert(root, i);
-    }
-    if (root->max < i.high)
-        root->max = i.high;
+    if (root->i->low < l)
+        root->left = insert(root->left, i);
 
+    else
+        root->right = insert(root->right, i);
+
+    if(root->max<i.high)
+        root->max=i.high;
     return root;
 }
 
@@ -54,40 +51,32 @@ bool doOVerlap(Interval i1, Interval i2)
 
 Interval *overlapSearch(ITNode *root, Interval i)
 {
-    if(!root) return NULL;
+    if (root == NULL)
+        return NULL;
 
-    if(doOVerlap(*(root->i),i)) return root->i;
+    if (doOVerlap(*(root->i), i))
+        return root->i;
 
-    if(root->left!=NULL && root->left->max>=i.low)
-        return overlapSearch(root->left,i);
-    
-    return overlapSearch(root->right,i);
-    
+    if (root->left != NULL && root->max <= root->i->low)
+        return overlapSearch(root->left, i);
+    return overlapSearch(root->right, i);
 }
-void preorder(ITNode* root){
-    if(!root) return;
 
-    cout<<(root->i->low)<<" "<<(root->i->high)<<endl;
-    preorder(root->left);
-    preorder(root->right);
-}
 void printConflicting(Interval appt[], int n)
 {
     ITNode *root = NULL;
     root = insert(root, appt[0]);
     for (int i = 1; i < n; i++)
     {
-        // Interval *res = overlapSearch(root, appt[i]);
-        // if (res != NULL)
-        // {
-        //     cout << "[" << appt->low << "-" << appt->high << "]"
-        //          << "conflicts"
-        //          << "[" << res->low << "-" << res->high << "]";
-        // }
-        root = insert(root, appt[i]);
+        Interval *res = overlapSearch(root, appt[i]);
+        if (res != NULL)
+        {
+            cout << "[" << appt[i].low << "," << appt[i].high
+                 << "] Conflicts with [" << res->low << ","
+                 << res->high << "]\n";
+        }
+        root=insert(root,appt[i]);
     }
-  
-    preorder(root);
 }
 
 // Driver program to test above functions
